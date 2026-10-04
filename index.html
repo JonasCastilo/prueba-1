@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hola 👋</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 id="mensaje" aria-live="polite"></h1>
+
+<script>
+  // Mensajes que se van alternando
+  const mensajes = ["olaaaaa keriiiii como estas? 👋", "que haces? 😄"];
+  const caja = document.getElementById("mensaje");
+  let i = 0;
+
+  function escribir(texto) {
+    caja.classList.remove("sale");
+    caja.innerHTML = "";
+    [...texto].forEach((letra, n) => {
+      const s = document.createElement("span");
+      s.textContent = letra === " " ? "\u00A0" : letra;
+      s.style.animationDelay = (n * 0.05) + "s";
+      caja.appendChild(s);
+    });
+    caja.classList.add("flota");
+  }
+
+  function siguiente() {
+    escribir(mensajes[i]);
+    const duracion = mensajes[i].length * 60 + 2800;
+    setTimeout(() => {
+      caja.classList.remove("flota");
+      caja.classList.add("sale");
+      setTimeout(() => {
+        i = (i + 1) % mensajes.length;
+        siguiente();
+      }, 600);
+    }, duracion);
+  }
+  siguiente();
+
+  // Burbujas de fondo
+  for (let b = 0; b < 14; b++) {
+    const d = document.createElement("div");
+    const t = 30 + Math.random() * 90;
+    d.className = "burbuja";
+    d.style.width = d.style.height = t + "px";
+    d.style.left = Math.random() * 100 + "vw";
+    d.style.animationDuration = 8 + Math.random() * 10 + "s";
+    d.style.animationDelay = -Math.random() * 12 + "s";
+    document.body.appendChild(d);
+  }
+</script>
+</body>
+</html>

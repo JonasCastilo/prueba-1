@@ -1,0 +1,77 @@
+:root {
+    --bg1: #f4577efd;
+    --bg2: #8f7dca;
+    --bg3: #78c7ec;
+    --texto: #3b2a5c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    color: var(--texto);
+    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    background-size: 300% 300%;
+    animation: fondo 12s ease infinite;
+    overflow: hidden;
+    position: relative;
+  }
+  @keyframes fondo {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Burbujas flotando */
+  .burbuja {
+    position: absolute;
+    bottom: -120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.35);
+    animation: subir linear infinite;
+  }
+  @keyframes subir {
+    to { transform: translateY(-120vh); opacity: 0; }
+  }
+
+  /* Mensaje */
+  #mensaje {
+    position: relative;
+    z-index: 1;
+    padding: 0 1.5rem;
+    text-align: center;
+    font-size: clamp(2.2rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  #mensaje span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px) scale(.6);
+    animation: entra .9s cubic-bezier(.3,1.6,.5,1) forwards;
+  }
+  #mensaje.sale span {
+    animation: sale .50s ease-in forwards;
+  }
+  @keyframes entra {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes sale {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(-30px) scale(.6); }
+  }
+
+  /* Rebote suave una vez aparecido */
+  #mensaje.flota {
+    animation: flota 5s ease-in-out infinite;
+  }
+  @keyframes flota {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body, .burbuja, #mensaje.flota { animation: none; }
+  }
