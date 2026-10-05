@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hola 👋</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">    
 </head>
 <body>
+  <button id="entrar">Toca para entrar 🎵</button>
+  <button id="mute" aria-label="Silenciar">🔊</button>
   <h1 id="mensaje" aria-live="polite"></h1>
 
 <script>
   // Mensajes que se van alternando
-  const mensajes = ["olaaaaa keriiiii como estas? 👋", "que haces? 😄"];
+  const mensajes = ["olaaaaa keriiii como estas? 👋", "que haces? 😄"];
   const caja = document.getElementById("mensaje");
   let i = 0;
 
@@ -29,7 +31,7 @@
 
   function siguiente() {
     escribir(mensajes[i]);
-    const duracion = mensajes[i].length * 60 + 2800;
+    const duracion = mensajes[i].length * 50 + 2800;
     setTimeout(() => {
       caja.classList.remove("flota");
       caja.classList.add("sale");
@@ -39,7 +41,61 @@
       }, 600);
     }, duracion);
   }
-  siguiente();
+
+
+  // ---------- Música (sintetizada, sin archivos) ----------
+  let ctx, master, sonando = true;
+  const acordes = [
+    [261.63, 329.63, 392.00],   // Do
+    [196.00, 246.94, 293.66],   // Sol
+    [220.00, 261.63, 329.63],   // La menor
+    [174.61, 220.00, 261.63]    // Fa
+  ];
+  const BAR = 3.2;               // segundos por compás
+
+  function nota(freq, t, dur, vol, tipo, ataque) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = tipo; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + ataque);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+
+  function compas(n, t) {
+    const ac = acordes[n % acordes.length];
+    ac.forEach(f => nota(f / 2, t, BAR + 0.5, 0.05, "sine", 0.8));      // colchón
+    for (let k = 0; k < 8; k++) {                                       // arpegio
+      nota(ac[k % 3] * 2, t + k * (BAR / 8), 1.1, 0.07, "triangle", 0.02);
+    }
+  }
+
+  function iniciarMusica() {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    master.gain.value = 0.5;
+    master.connect(ctx.destination);
+    let n = 0, prox = ctx.currentTime + 0.1;
+    function planificar() {
+      while (prox < ctx.currentTime + 1.5) { compas(n++, prox); prox += BAR; }
+    }
+    planificar();
+    setInterval(planificar, 400);
+  }
+
+  document.getElementById("entrar").addEventListener("click", function () {
+    iniciarMusica();
+    this.remove();
+    document.getElementById("mute").style.display = "block";
+    siguiente();
+  });
+
+  document.getElementById("mute").addEventListener("click", function () {
+    sonando = !sonando;
+    master.gain.value = sonando ? 0.5 : 0;
+    this.textContent = sonando ? "🔊" : "🔇";
+  });
 
   // Burbujas de fondo
   for (let b = 0; b < 14; b++) {

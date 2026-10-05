@@ -1,7 +1,7 @@
-:root {
-    --bg1: #f4577efd;
-    --bg2: #8f7dca;
-    --bg3: #78c7ec;
+ :root {
+    --bg1: #ffd6e0;
+    --bg2: #c9b8ff;
+    --bg3: #b8e8ff;
     --texto: #3b2a5c;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,10 +50,10 @@
     display: inline-block;
     opacity: 0;
     transform: translateY(30px) scale(.6);
-    animation: entra .9s cubic-bezier(.3,1.6,.5,1) forwards;
+    animation: entra .6s cubic-bezier(.3,1.6,.5,1) forwards;
   }
   #mensaje.sale span {
-    animation: sale .50s ease-in forwards;
+    animation: sale .45s ease-in forwards;
   }
   @keyframes entra {
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -65,11 +65,26 @@
 
   /* Rebote suave una vez aparecido */
   #mensaje.flota {
-    animation: flota 5s ease-in-out infinite;
+    animation: flota 3s ease-in-out infinite;
   }
   @keyframes flota {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-10px); }
+  }
+
+
+  #entrar {
+    position: absolute; z-index: 3;
+    padding: 1rem 2.2rem; font-size: 1.2rem; font-family: inherit; font-weight: 700;
+    border: none; border-radius: 999px; background: #fff; color: var(--texto);
+    cursor: pointer; box-shadow: 0 8px 24px rgba(59,42,92,.2);
+    transition: transform .2s;
+  }
+  #entrar:hover { transform: scale(1.08); }
+  #mute {
+    position: absolute; top: 16px; right: 16px; z-index: 3; display: none;
+    width: 44px; height: 44px; border: none; border-radius: 50%;
+    background: rgba(255,255,255,.7); font-size: 1.3rem; cursor: pointer;
   }
 
   @media (prefers-reduced-motion: reduce) {
