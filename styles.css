@@ -1,0 +1,440 @@
+/* --- VARIABLES Y BASE --- */
+:root {
+    --primary-pink: #ff4d6d;
+    --light-pink: #ffb3c6;
+    --dark-pink: #c9184a;
+    --ribbon-color: #ffd60a;
+    --cake-base: #fff0f3;
+    --cake-frosting: #ffccd5;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #ffb3c6 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    margin: 0;
+    overflow: hidden; /* Evitar scroll durante la experiencia */
+    width: 100vw;
+    height: 100vh;
+}
+
+h1, h2, .cursive-font {
+    font-family: 'Dancing Script', cursive;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- CORAZONES DE FONDO --- */
+.floating-heart {
+    position: absolute;
+    bottom: -20px;
+    color: rgba(255, 77, 109, 0.4);
+    animation: floatUp linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+}
+
+/* --- UTILIDADES GLASSMORPHISM & EFECTOS --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(255, 138, 161, 0.3);
+}
+
+.text-glow {
+    text-shadow: 0 0 15px rgba(255, 77, 109, 0.6), 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+.phase-transition {
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+/* --- ANIMACIÓN BOTÓN PULSANTE --- */
+@keyframes pulse-btn {
+    0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 77, 109, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); }
+}
+.btn-pulse {
+    animation: pulse-btn 2s infinite;
+}
+
+/* --- GLOBOS (CSS DETALLADO) --- */
+.balloon-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.balloon {
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.1);
+    animation: bobbing 4s ease-in-out infinite alternate;
+}
+
+/* Reflejo del globo */
+.balloon::before {
+    content: '';
+    position: absolute;
+    top: 15px; left: 15px;
+    width: 15px; height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: rotate(20deg);
+}
+
+/* Nudo del globo */
+.balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: inherit;
+}
+
+/* Hilo del globo */
+.balloon-string {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    width: 2px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateX(-50%);
+}
+
+@keyframes bobbing {
+    0% { transform: translateY(0) rotate(-2deg); }
+    100% { transform: translateY(-30px) rotate(2deg); }
+}
+
+/* Colores de los globos */
+.b-pink { background-color: var(--primary-pink); border-bottom-color: var(--primary-pink); }
+.b-light { background-color: var(--light-pink); border-bottom-color: var(--light-pink); }
+.b-yellow { background-color: var(--ribbon-color); border-bottom-color: var(--ribbon-color); }
+
+/* --- PASTEL (CSS DETALLADO) --- */
+.cake-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.plate {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 -5px 10px rgba(0,0,0,0.1);
+}
+
+.cake-layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cake-base);
+    border-radius: 10px;
+    box-shadow: inset -15px 0 20px rgba(0,0,0,0.05);
+}
+
+.layer-bottom { bottom: 15px; width: 220px; height: 80px; }
+.layer-top { bottom: 95px; width: 160px; height: 70px; }
+
+.frosting {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 30px;
+    background: var(--primary-pink);
+    border-radius: 10px 10px 0 0;
+}
+
+.drip {
+    position: absolute;
+    top: 25px;
+    width: 20px;
+    height: 30px;
+    background: var(--primary-pink);
+    border-radius: 0 0 20px 20px;
+}
+
+/* Velas y Fuego */
+.candle-container {
+    position: absolute;
+    bottom: 165px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+.candle {
+    width: 12px;
+    height: 40px;
+    background: repeating-linear-gradient(45deg, #fff, #fff 5px, var(--primary-pink) 5px, var(--primary-pink) 10px);
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.flame {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 25px;
+    background: radial-gradient(ellipse at bottom, #fff 10%, #ffd60a 40%, #ff6b00 100%);
+    border-radius: 50% 50% 20% 20%;
+    animation: flicker 0.1s infinite alternate, glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes flicker {
+    0% { transform: translateX(-50%) scale(1) skewX(2deg); opacity: 0.9; }
+    100% { transform: translateX(-50%) scale(1.05) skewX(-2deg); opacity: 1; }
+}
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #ffd60a, 0 0 20px #ff6b00; }
+    100% { box-shadow: 0 0 20px #ffd60a, 0 0 40px #ff6b00; }
+}
+
+/* --- EL REGALO (FASE 2) --- */
+.gift-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.3s ease;
+}
+
+.gift-container:hover { transform: scale(1.05); }
+
+.gift-box {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 140px;
+    background-color: var(--primary-pink);
+    border-radius: 8px;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1), 0 15px 35px rgba(201, 24, 74, 0.4);
+    border: 2px solid var(--dark-pink);
+}
+
+.gift-lid {
+    position: absolute;
+    bottom: 140px;
+    left: -10px;
+    width: 220px;
+    height: 50px;
+    background-color: var(--primary-pink);
+    border-radius: 6px;
+    box-shadow: inset -10px -5px 10px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.2);
+    border: 2px solid var(--dark-pink);
+    z-index: 2;
+    transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: bottom center;
+}
+
+.ribbon-vertical, .ribbon-horizontal { position: absolute; background-color: var(--ribbon-color); box-shadow: inset -2px -2px 5px rgba(0,0,0,0.1); }
+.gift-box .ribbon-vertical { width: 40px; height: 100%; left: 80px; }
+.gift-box .ribbon-horizontal { width: 100%; height: 40px; top: 50px; }
+.gift-lid .ribbon-vertical { width: 40px; height: 100%; left: 90px; }
+
+.bow {
+    position: absolute;
+    top: -45px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 50px;
+    z-index: 3;
+}
+.bow-left, .bow-right {
+    position: absolute; width: 45px; height: 45px;
+    background-color: var(--ribbon-color);
+    top: 0; box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2);
+}
+.bow-left { left: -5px; transform: rotate(45deg); border-radius: 50% 50% 0 50%; }
+.bow-right { right: -5px; transform: rotate(-45deg); border-radius: 50% 50% 50% 0; }
+.bow-center {
+    position: absolute; width: 20px; height: 20px;
+    background-color: #ffd60a; border-radius: 50%;
+    top: 15px; left: 50%; transform: translateX(-50%);
+    z-index: 4; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+@keyframes shake {
+    0%, 50%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(-5deg); }
+    20%, 40% { transform: rotate(5deg); }
+}
+
+.shaking { animation: shake 0.6s ease-in-out infinite; }
+
+.gift-container.opened .gift-lid {
+    transform: translateY(-150px) rotate(-15deg) scale(1.1);
+    opacity: 0;
+}
+.gift-container.opened .bow { opacity: 0; transition: opacity 0.5s ease; }
+
+/* --- DETALLES EXTRA DEL REGALO --- */
+.gift-aura {
+    position: absolute; left: 50%; top: 50%;
+    width: 320px; height: 320px; margin: -160px 0 0 -160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.75) 0%, rgba(255,179,198,0.45) 40%, transparent 70%);
+    z-index: -2; pointer-events: none;
+    animation: auraPulse 2.5s ease-in-out infinite;
+}
+@keyframes auraPulse {
+    0%, 100% { transform: scale(0.85); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.sparkle {
+    position: absolute; color: #ffd60a; pointer-events: none;
+    text-shadow: 0 0 8px #fff, 0 0 14px #ffd60a;
+    animation: twinkle 2s ease-in-out infinite;
+    opacity: 0;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(90deg); }
+}
+.gift-container.opened .sparkle { display: none; }
+
+.gift-rays {
+    position: absolute; left: 50%; top: 40px;
+    width: 560px; height: 560px; margin: -280px 0 0 -280px;
+    border-radius: 50%; pointer-events: none; z-index: -1; opacity: 0;
+    background: repeating-conic-gradient(from 0deg, rgba(255,214,10,0.6) 0deg 8deg, transparent 8deg 24deg);
+    -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+    mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+}
+.gift-container.opened .gift-rays {
+    animation: raysShow 2.8s ease forwards, raysSpin 10s linear infinite;
+}
+@keyframes raysShow {
+    0% { opacity: 0; }
+    15% { opacity: 1; }
+    70% { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+@keyframes raysSpin { to { transform: rotate(360deg); } }
+
+#flash {
+    position: fixed; inset: 0; background: #fff; opacity: 0;
+    pointer-events: none; z-index: 65;
+}
+#flash.go { animation: flashOnce 0.7s ease-out; }
+@keyframes flashOnce {
+    0% { opacity: 0; } 20% { opacity: 0.75; } 100% { opacity: 0; }
+}
+
+.burst-emoji {
+    position: fixed; z-index: 70; pointer-events: none; opacity: 0;
+    animation: burstOut ease-out forwards;
+}
+@keyframes burstOut {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(0deg); }
+    15% { opacity: 1; }
+    60% { opacity: 1; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1) rotate(var(--rot)); }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy) + 120px)) scale(0.9) rotate(var(--rot)); }
+}
+
+.rise-emoji {
+    position: fixed; bottom: -60px; z-index: 55; pointer-events: none;
+    animation: riseUp linear forwards;
+}
+@keyframes riseUp {
+    0% { transform: translateY(0) translateX(0) rotate(-8deg); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateY(-60vh) translateX(25px) rotate(8deg); }
+    90% { opacity: 1; }
+    100% { transform: translateY(-115vh) translateX(-20px) rotate(-8deg); opacity: 0; }
+}
+
+/* Animaciones de Mensaje */
+.fade-in-up {
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+}
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Scrollbar personalizado para el mensaje largo */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 77, 109, 0.5);
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 77, 109, 0.8);
+}
+
+
+/* --- VELAS EN FORMA DE NÚMERO (20) --- */
+.candle-container {
+    gap: 6px;
+    align-items: flex-end;
+}
+
+.number-candle {
+    position: relative;
+    width: 56px;
+    display: flex;
+    justify-content: center;
+}
+
+.number-candle span {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 88px;
+    line-height: 0.8;
+    background: repeating-linear-gradient(45deg, #fff, #fff 6px, var(--primary-pink) 6px, var(--primary-pink) 12px);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 3px var(--dark-pink);
+    filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+/* La flama sube un poco menos porque el número ya tiene altura propia */
+.number-candle .flame {
+    top: -14px;
+}
